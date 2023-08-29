@@ -19,6 +19,11 @@ public class BruteForce {
         this.guessedPassword = guessedPassword;
     }
 
+    private void bruteForceSha(String username, String authUsername, String authPassword){
+
+        //TODO: Create a method for cracking SHA encoded passwords.
+
+    }
     public void bruteForceInt(String username, String authUsername, String authPassword) {
 
         System.out.println("------------------Cracking Password please way---------------------");
