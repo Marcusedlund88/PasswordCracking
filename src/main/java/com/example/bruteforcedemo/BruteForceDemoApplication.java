@@ -27,6 +27,5 @@ public class BruteForceDemoApplication {
 
 
        // bruteForce.bruteForceInt(6, "$2a$10$.xILN2u/b9wJWKMFH/EB4eLlFJKvcYIAadXTMnbVUFJgHpLX4d2hi", restTemplate,"hurtigh");
-        System.exit(130);
     }
 }

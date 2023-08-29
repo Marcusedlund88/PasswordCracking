@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class EndpointController {
-    int x = 1;
     private boolean passFound = false;
     public boolean makeRequest(String username, String password, String authUsername,String authPassword) {
         String url = "http://localhost:8080/users/loginFixed";

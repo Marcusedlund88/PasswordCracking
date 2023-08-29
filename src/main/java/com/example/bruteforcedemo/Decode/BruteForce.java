@@ -23,10 +23,6 @@ public class BruteForce {
 
         System.out.println("------------------Cracking Password please way---------------------");
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
-        /*
-        String password = bCryptPasswordEncoder.encode(guessedPassword);
-        System.out.println(password);*/
         EndpointController endpointController = new EndpointController();
         try {
             for (int i = 0; i < 999999999; i++) {
