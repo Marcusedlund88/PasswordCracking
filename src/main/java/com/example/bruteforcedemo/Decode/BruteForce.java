@@ -5,6 +5,12 @@ import org.apache.tomcat.util.buf.Ascii;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class BruteForce {
 
@@ -19,14 +25,42 @@ public class BruteForce {
         this.guessedPassword = guessedPassword;
     }
 
-    private void bruteForceSha(String username, String authUsername, String authPassword){
+    public void bruteForceDictionary(String username, String authUsername, String authPassword){
+        passFound = false;
+        endpointController.setPassFound(false);
+        System.out.println("------------------Cracking Password please wait---------------------");
+
+        String filePath = "C:\\Users\\Min Dator\\Desktop\\Marcus\\Security\\Exercise Two\\BruteForceDemo\\src\\main\\resources\\Passwords.txt";
+
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            int counter = 0;
+            while((line = reader.readLine()) != null){
+               passFound = endpointController.makeRequest(username, line, authUsername, authPassword);
+
+               if(passFound){
+                   return;
+               }
+            }
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //TODO: Create a method for reading passwords from file.
+    }
+
+    public void bruteForceSha(String username, String authUsername, String authPassword){
 
         //TODO: Create a method for cracking SHA encoded passwords.
 
     }
     public void bruteForceInt(String username, String authUsername, String authPassword) {
-
-        System.out.println("------------------Cracking Password please way---------------------");
+        passFound = false;
+        endpointController.setPassFound(false);
+        System.out.println("------------------Cracking Password please wait---------------------");
 
         EndpointController endpointController = new EndpointController();
         try {
@@ -46,8 +80,9 @@ public class BruteForce {
     }
 
     public void bruteForceChar(int length, String username, String authUsername, String authPassword){
-
-        System.out.println("------------------Cracking Password please way---------------------");
+        passFound = false;
+        endpointController.setPassFound(false);
+        System.out.println("------------------Cracking Password please wait---------------------");
         String password = "";
 
         char[] vector = new char[length];
