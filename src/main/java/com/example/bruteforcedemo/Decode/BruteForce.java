@@ -117,4 +117,46 @@ public class BruteForce {
         }
         return null;
     }
+    public void bruteForceSpecial(String username, String authUsername, String authPassword){
+        passFound = false;
+        endpointController.setPassFound(false);
+        System.out.println("------------------Cracking Password with Special Characters, please wait---------------------");
+
+        int length = 4; // password length
+        char[] vector = new char[length];
+
+        String charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+";
+        int alphabet = charset.length(); // size of your alphabet
+
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] = charset.charAt(0);
+        }
+        generateLoopsSpecial("", length-1, alphabet, vector, charset, username, authUsername, authPassword);
+    }
+
+    public String generateLoopsSpecial(String password, int depth, int alphabet, char[] vector, String charset, String username, String authUsername, String authPassword) {
+        if (depth == -1) {
+            String answer = new String(vector);
+            passFound = endpointController.makeRequest(username, answer, authUsername, authPassword);
+            if(passFound){
+                System.out.println("Password found: " + answer);
+                return answer;
+            }
+            return null;
+        }
+        for (int i = 0; i < alphabet; i++) {
+            char character = charset.charAt(i);
+            vector[depth] = character;
+
+            if(depth - 1 >= -1) {
+                generateLoopsSpecial(password, depth - 1, alphabet, vector, charset, username, authUsername, authPassword);
+            }
+
+            if(passFound){
+                break;
+            }
+        }
+
+        return null;
+    }
 }

@@ -23,7 +23,7 @@ public class BruteForceDemoApplication {
         bruteForce.bruteForceChar(4,"marcus",authUsername,authPassword);
         bruteForce.bruteForceInt("hurtigh", authUsername,authPassword);
         bruteForce.bruteForceDictionary("admin",authUsername, authPassword);
-
+        bruteForce.bruteForceSpecial("admin", authUsername, authPassword);
 
         //EndpointController endpointController = new EndpointController();
 
@@ -31,3 +31,46 @@ public class BruteForceDemoApplication {
        // bruteForce.bruteForceInt(6, "$2a$10$.xILN2u/b9wJWKMFH/EB4eLlFJKvcYIAadXTMnbVUFJgHpLX4d2hi", restTemplate,"hurtigh");
     }
 }
+
+/*    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter encrypted password:");
+        String encryptedPassword = scanner.nextLine();
+
+        System.out.println("Enter guessed password:");
+        String guessedPassword = scanner.nextLine();
+
+        System.out.println("Enter auth username:");
+        String authUsername = scanner.nextLine();
+
+        System.out.println("Enter auth password:");
+        String authPassword = scanner.nextLine();
+
+        BruteForce bruteForce = new BruteForce(encryptedPassword, guessedPassword);
+
+        System.out.println("Select brute force method:");
+        System.out.println("1: Brute force characters");
+        System.out.println("2: Brute force integers");
+        System.out.println("3: Brute force sha ");
+
+        int selection = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (selection) {
+            case 1:
+                System.out.println("Executing brute force on characters...");
+                bruteForce.bruteForceChar(4, "marcus", authUsername, authPassword);
+                break;
+            case 2:
+                System.out.println("Executing brute force on integers...");
+                bruteForce.bruteForceInt("hurtigh", authUsername, authPassword);
+                break;
+            default:
+                System.out.println("Invalid selection");
+                break;
+        }
+
+        scanner.close();
+    }
+}*/
