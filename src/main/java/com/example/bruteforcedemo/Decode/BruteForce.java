@@ -43,7 +43,6 @@ public class BruteForce {
                    return;
                }
             }
-
         }
         catch (IOException e){
             e.printStackTrace();
@@ -79,7 +78,7 @@ public class BruteForce {
         }
     }
 
-    public void bruteForceChar(int length, String username, String authUsername, String authPassword){
+    public void bruteForceChar(int length, String username, String authUsername, String authPassword, int asciiStart, int asciiEnd){
         passFound = false;
         endpointController.setPassFound(false);
         System.out.println("------------------Cracking Password please wait---------------------");
@@ -90,12 +89,13 @@ public class BruteForce {
         int alphabet = 26;
 
         for (int i = 0; i < vector.length; i++) {
-            vector[i] = 'a';
+            vector[i] = (char) (asciiStart);
         }
-        generateLoops(password, length-1, alphabet, vector, username, authUsername, authPassword);
+        generateLoops(password, length-1, vector, username, authUsername, authPassword, asciiStart, asciiEnd);
     }
 
-    public String generateLoops(String password, int depth, int alphabet, char[] vector, String username, String authUsername, String authPassword){
+    public String generateLoops(String password, int depth, char[] vector,
+                                String username, String authUsername, String authPassword, int asciiStart, int asciiEnd){
         if (depth == -1) {
 
             String answer = new String(vector);
@@ -103,13 +103,14 @@ public class BruteForce {
             return answer;
         }
 
-        for (int i = 0; i < alphabet; i++) {
-            char character = (char) (i + 97);
+        for (int i = asciiStart; i < asciiEnd; i++) {
+            char character = (char) (i);
+
                 passFound = endpointController.makeRequest(username, new String(vector), authUsername, authPassword);
 
             if(depth-1 >= -1) {
                 vector[depth] = character;
-                generateLoops(password, depth - 1, alphabet, vector, username, authUsername, authPassword);
+                generateLoops(password, depth - 1, vector, username, authUsername, authPassword, asciiStart, asciiEnd);
             }
             if(passFound){
                 break;
@@ -157,6 +158,50 @@ public class BruteForce {
             }
         }
 
+        return null;
+    }
+
+    public void bruteForceBcrypt(int passwordLength, String encodedPass){
+        System.out.println("------------------Cracking Password with Special Characters, please wait---------------------");
+
+        passFound = false;
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
+
+        int asciiStart = 33;
+        int asciiEnd = 127;
+        for (int i = 0; i < passwordLength; i++) {
+            char[] vector = new char[i+1];
+            generateLoopsBcrypt(vector.length-1, encodedPass, asciiStart, asciiEnd, vector, bCryptPasswordEncoder);
+        }
+    }
+
+    public String generateLoopsBcrypt(int passwordLength, String encryptedPassword,
+                                      int asciiStart, int asciiEnd, char[] vector, BCryptPasswordEncoder bCryptPasswordEncoder){
+        if (passwordLength == -1) {
+
+            String answer = new String(vector);
+
+            return answer;
+        }
+
+        for (int i = asciiStart; i < asciiEnd+1; i++) {
+            char character = (char) (i);
+            vector[passwordLength] = character;
+            //vector[passwordLength-1] = character;
+
+           if(bCryptPasswordEncoder.matches(new String(vector), encryptedPassword)){
+               passFound = true;
+                System.out.println("You lucky bastard you did it!! Password is: " + new String(vector));
+            }
+
+            if(passwordLength-1 != -1) {
+                generateLoopsBcrypt(passwordLength-1, encryptedPassword, asciiStart, asciiEnd, vector, bCryptPasswordEncoder);
+            }
+            if(passFound){
+                System.out.println("");
+                break;
+            }
+        }
         return null;
     }
 }

@@ -1,0 +1,51 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.background{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+}
+.nav-bar{
+    display: flex;
+    width: 100%;
+    height: 5%;
+    flex-direction: row;
+    background-color: aliceblue;
+}
+.container{
+    display: flex;
+    width: 40%;
+    height: 95%;
+}
+.form{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+.top-div{
+    display: flex;
+    height: 20%;
+    width: 100%;
+    align-items: left;
+    justify-content: center;
+    padding-left: 10%;
+}
+.middle-div{
+    display: flex;
+    height: 60%;
+    width: 100%;
+    align-items: left;
+    flex-direction: column;
+    padding-left: 10%;
+}
+.bottom-div{
+    display: flex;
+    height: 20%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}

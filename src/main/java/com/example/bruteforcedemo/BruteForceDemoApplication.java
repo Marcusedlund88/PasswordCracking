@@ -16,14 +16,15 @@ public class BruteForceDemoApplication {
         String guessedPassword = "anna";
 
         String authUsername = "user";
-        String authPassword = "28b3d01f-d1fc-4704-a7d2-85c6a6f0c6a6";
+        String authPassword = "b73b3ccf-6d96-4fa5-9518-d8c0480a9701";
 
         BruteForce bruteForce = new BruteForce(encryptedPassword, guessedPassword);
 
-        bruteForce.bruteForceChar(4,"marcus",authUsername,authPassword);
-        bruteForce.bruteForceInt("hurtigh", authUsername,authPassword);
-        bruteForce.bruteForceDictionary("admin",authUsername, authPassword);
-        bruteForce.bruteForceSpecial("admin", authUsername, authPassword);
+        //bruteForce.bruteForceChar(4,"marcus",authUsername,authPassword, 33, 122);
+        //bruteForce.bruteForceInt("hurtigh", authUsername,authPassword);
+        //bruteForce.bruteForceDictionary("admin",authUsername, authPassword);
+        //bruteForce.bruteForceSpecial("admin", authUsername, authPassword);
+        //bruteForce.bruteForceBcrypt(4, encryptedPassword);
 
         //EndpointController endpointController = new EndpointController();
 

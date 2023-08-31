@@ -2,6 +2,7 @@ package com.example.bruteforcedemo.Controller;
 
 import org.springframework.http.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +13,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EndpointController {
     private boolean passFound = false;
+    private boolean unAuthorized = false;
+    private boolean endOfRequest  = false;
+
     private List<Disposable> disposables = new ArrayList<>();
     public boolean makeRequest(String username, String password, String authUsername,String authPassword) {
         String url = "http://localhost:8080/users/loginFixed";
@@ -34,12 +38,25 @@ public class EndpointController {
                 System.out.println("You lucky bastard you did it!! Password is: " + password);
                 passFound = true;
             }
+
+        }, error-> {
+            if(error instanceof org.springframework.web.reactive.function.client.WebClientResponseException.Unauthorized){
+                unAuthorized = true;
+            }
         });
         disposables.add(disposable);
         if(passFound) {
             for (Disposable ongoingDisposable : disposables){
                 ongoingDisposable.dispose();
             }
+            endOfRequest = true;
+        }
+        if(unAuthorized){
+            System.out.println("Unauthorized access");
+            for (Disposable ongoingDisposable : disposables){
+                ongoingDisposable.dispose();
+            }
+            endOfRequest = true;
         }
     }
 
@@ -49,7 +66,7 @@ public class EndpointController {
         catch (Exception e){
             System.out.println("Error ");
         }
-        return passFound;
+        return endOfRequest;
     }
     private static String getBasicAuthHeader(String username, String password) {
         String credentials = username + ":" + password;
